@@ -1,0 +1,3771 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "description": "Operação, consumo Vertex AI e custos dos cinco projetos, com unidades explícitas e ausência de dados visível.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "includeVars": false,
+      "keepTime": true,
+      "title": "Core Platform \u0026 APIs",
+      "type": "link",
+      "url": "/d/aiops-core-prod"
+    },
+    {
+      "includeVars": false,
+      "keepTime": true,
+      "title": "Enterprise SaaS Staging",
+      "type": "link",
+      "url": "/d/aiops-saas-staging"
+    },
+    {
+      "includeVars": false,
+      "keepTime": true,
+      "title": "AI Analytics \u0026 FinOps",
+      "type": "link",
+      "url": "/d/aiops-ai-analytics"
+    },
+    {
+      "includeVars": false,
+      "keepTime": true,
+      "title": "Telemetry Store \u0026 Ingest",
+      "type": "link",
+      "url": "/d/aiops-telemetry-prod"
+    },
+    {
+      "keepTime": true,
+      "title": "Gateway de IA",
+      "type": "link",
+      "url": "/d/aiops-ai-gateway"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "content": "## Seu ecossistema, em uma leitura\n\n5 projetos · Operação, consumo de IA e custos. **Totais seguem o período selecionado; custos seguem a fatura indicada.**",
+        "mode": "markdown"
+      },
+      "title": "",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Soma das requisições Cloud Run recebidas no período, incluindo respostas com erro.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 2,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Requisições",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Requisições",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Requisições · período",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Quantidade de respostas com erro de servidor. Ausência de série não comprova zero erros.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 3
+      },
+      "id": 3,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Respostas 5xx",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Respostas 5xx",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway",
+              "AND",
+              "metric.label.response_code_class",
+              "=",
+              "5xx"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Respostas 5xx · período",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Entrada + saída reportadas pelo Vertex AI nos cinco projetos. Não inclui chamadas diretas à Gemini Developer API.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 3
+      },
+      "id": 4,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Tokens",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Tokens",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tokens de IA · período",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Invocações Vertex AI no período, incluindo tentativas com erro. Não equivale a conversas ou usuários.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "cyan",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 5,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Chamadas",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Chamadas",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Chamadas de IA · período",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 20,
+      "panels": [],
+      "title": "01  Operação · onde há tráfego e falhas?",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Requisições por segundo. Cores e nomes dos projetos são consistentes entre painéis.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 6,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.project_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.project_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.project_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tráfego por projeto",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Respostas HTTP 5xx por segundo. Compare com o tráfego ao lado; não é uma taxa percentual.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 7,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.project_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.project_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway",
+              "AND",
+              "metric.label.response_code_class",
+              "=",
+              "5xx"
+            ],
+            "groupBys": [
+              "resource.label.project_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Erros de servidor por projeto",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Maior p95 entre as séries de serviço/revisão de cada projeto em cada intervalo. Não é o p95 global das requisições; destaca o pior sinal.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 8,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.project_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.project_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_MAX",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.project_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_latencies",
+            "perSeriesAligner": "ALIGN_PERCENTILE_95",
+            "projectName": "enterprise-core-prod",
+            "valueType": "DISTRIBUTION"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Latência p95 · serviço mais lento por projeto",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Média de instâncias ativas no intervalo, somada por projeto. Pode ser fracionária. Escala até zero é esperada; dados ausentes não comprovam indisponibilidade.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 9,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.project_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.project_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway",
+              "AND",
+              "metric.label.state",
+              "=",
+              "active"
+            ],
+            "groupBys": [
+              "resource.label.project_id"
+            ],
+            "metricKind": "GAUGE",
+            "metricType": "run.googleapis.com/container/instance_count",
+            "perSeriesAligner": "ALIGN_MEAN",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Instâncias ativas por projeto",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 21,
+      "panels": [],
+      "title": "02  Inteligência artificial · quanto e quais modelos?",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Totais de tokens do período. Entrada inclui o contexto enviado; saída é o conteúdo gerado reportado pelo Vertex AI.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 25
+      },
+      "id": 10,
+      "maxDataPoints": 1500,
+      "options": {
+        "displayMode": "basic",
+        "maxVizHeight": 60,
+        "minVizHeight": 16,
+        "minVizWidth": 0,
+        "namePlacement": "top",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 14
+        },
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "aliasBy": "Entrada",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Entrada",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "input"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        },
+        {
+          "aliasBy": "Saída",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Saída",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "output"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "B"
+        }
+      ],
+      "title": "Tokens · entrada e saída",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "mode": "reduceFields",
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Cada fatia representa a participação de um modelo nas invocações Vertex AI do período. A legenda mostra quantidade e percentual; não representa consumo de tokens.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 25
+      },
+      "id": 11,
+      "maxDataPoints": 1500,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.model_user_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.model_user_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.model_user_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Modelos chamados · participação",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Entrada + saída por modelo no período. Compare com a participação em chamadas: modelos menos chamados podem consumir mais tokens.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 25
+      },
+      "id": 12,
+      "maxDataPoints": 1500,
+      "options": {
+        "displayMode": "basic",
+        "maxVizHeight": 60,
+        "minVizHeight": 16,
+        "minVizWidth": 0,
+        "namePlacement": "top",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 14
+        },
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.model_user_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.model_user_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.model_user_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tokens consumidos por modelo",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "mode": "reduceFields",
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Tokens por segundo; a unidade permanece comparável ao mudar o período ou a resolução.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "suffix: tokens/s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 34
+      },
+      "id": 13,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "Entrada",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Entrada",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "input"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        },
+        {
+          "aliasBy": "Saída",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Saída",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "output"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "B"
+        }
+      ],
+      "title": "Ritmo de consumo de tokens",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Invocações Vertex AI por segundo, separadas por modelo.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Core Platform \u0026 APIs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-core-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Enterprise SaaS Staging"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-saas-staging"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "AI Analytics \u0026 FinOps"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-ai-analytics"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Telemetry Store \u0026 Ingest"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "enterprise-telemetry-prod"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 34
+      },
+      "id": 14,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.model_user_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.model_user_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=~",
+              "enterprise-core-prod|enterprise-saas-staging|enterprise-ai-analytics|enterprise-telemetry-prod|enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.model_user_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Chamadas por modelo ao longo do tempo",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 42
+      },
+      "id": 22,
+      "panels": [],
+      "title": "03  Custos · fatura disponível e atualização da fonte",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Todos os meses presentes no export Standard. Valores na moeda indicada, sem conversão. Créditos são deduzidos do custo bruto. A ausência de linhas aparece como Sem dados e não como custo zero.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "width": 72
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Escopo"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 185
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Projeto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 156
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 96
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 66
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Créditos"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Líquido"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 18,
+        "x": 0,
+        "y": 43
+      },
+      "id": 15,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n)\n, monitored_latest AS (\n  SELECT MAX(invoice_month) AS invoice_month FROM billing\n  WHERE project_id IN ('enterprise-core-prod', 'enterprise-saas-staging', 'enterprise-ai-analytics', 'enterprise-telemetry-prod', 'enterprise-ai-gateway')\n), account_latest AS (\n  SELECT MAX(invoice_month) AS invoice_month FROM billing\n)\nSELECT '5 projetos monitorados' AS Escopo,\n  FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)) AS Fatura,\n  currency AS Moeda, ROUND(SUM(cost), 2) AS Bruto,\n  ROUND(-SUM(credit_amount), 2) AS Creditos,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing\nWHERE project_id IN ('enterprise-core-prod', 'enterprise-saas-staging', 'enterprise-ai-analytics', 'enterprise-telemetry-prod', 'enterprise-ai-gateway')\n  AND invoice_month = (SELECT invoice_month FROM monitored_latest)\nGROUP BY invoice_month, currency\nUNION ALL\nSELECT 'Toda a conta' AS Escopo,\n  FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)) AS Fatura,\n  currency AS Moeda, ROUND(SUM(cost), 2) AS Bruto,\n  ROUND(-SUM(credit_amount), 2) AS Creditos,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing\nWHERE invoice_month = (SELECT invoice_month FROM account_latest)\nGROUP BY invoice_month, currency\nORDER BY Escopo, Moeda",
+          "refId": "A"
+        }
+      ],
+      "title": "Bruto, créditos e líquido · última fatura",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Dias desde a última atualização do export de custos da conta, medidos por export_time. Acima de 2 dias: atenção; a partir de 7: obsoleto. Sem dados não significa atualizado.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "width": 72
+          },
+          "decimals": 0,
+          "displayName": "Defasagem",
+          "noValue": "Sem dados",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "gray",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "red",
+                "value": 7
+              }
+            ]
+          },
+          "unit": "suffix: dias"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 43
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  DATE_DIFF(CURRENT_DATE('America/Sao_Paulo'), DATE(MAX(export_time), 'America/Sao_Paulo'), DAY) AS dias_sem_atualizacao\nFROM `billing_export.gcp_billing_export_v1_*`\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Defasagem do billing",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Para cada projeto, mostra a fatura mais recente no export. Quando não existe linha, a coluna Fatura mostra Sem dados e os valores financeiros ficam como —, nunca como zero.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": true
+            },
+            "width": 72
+          },
+          "decimals": 2,
+          "noValue": "—",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Escopo"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 185
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Projeto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 156
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 96
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 66
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Créditos"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Líquido"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 14,
+        "x": 0,
+        "y": 48
+      },
+      "id": 17,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n)\n, projects AS (\n  SELECT 'enterprise-core-prod' AS project_id, 'Core Platform \u0026 APIs' AS project_name UNION ALL\n  SELECT 'enterprise-saas-staging', 'Enterprise SaaS Staging' UNION ALL\n  SELECT 'enterprise-ai-analytics', 'AI Analytics \u0026 FinOps' UNION ALL\n  SELECT 'enterprise-telemetry-prod', 'Telemetry Store \u0026 Ingest' UNION ALL\n  SELECT 'enterprise-ai-gateway', 'AI Model Gateway'\n), latest AS (\n  SELECT project_id, MAX(invoice_month) AS invoice_month\n  FROM billing\n  WHERE project_id IN ('enterprise-core-prod', 'enterprise-saas-staging', 'enterprise-ai-analytics', 'enterprise-telemetry-prod', 'enterprise-ai-gateway')\n  GROUP BY project_id\n)\nSELECT p.project_name AS Projeto,\n  COALESCE(FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', latest.invoice_month)), 'Sem dados') AS Fatura,\n  COALESCE(b.currency, '—') AS Moeda,\n  ROUND(SUM(b.cost), 2) AS Bruto,\n  ROUND(-SUM(b.credit_amount), 2) AS Creditos,\n  ROUND(SUM(b.cost + b.credit_amount), 2) AS Liquido\nFROM projects AS p\nLEFT JOIN latest ON latest.project_id = p.project_id\nLEFT JOIN billing AS b ON b.project_id = p.project_id AND b.invoice_month = latest.invoice_month\nGROUP BY p.project_id, p.project_name, latest.invoice_month, b.currency\nORDER BY p.project_id, b.currency",
+          "refId": "A"
+        }
+      ],
+      "title": "Custo por projeto · fatura mais recente no export",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Todos os meses de fatura presentes no export para os cinco projetos monitorados. Bruto, créditos aplicados e líquido são séries separadas. Cada moeda permanece separada; não há conversão nem previsão.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Valor na moeda indicada",
+            "fillOpacity": 85,
+            "lineWidth": 0
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 10,
+        "x": 14,
+        "y": 48
+      },
+      "id": 18,
+      "options": {
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "legend": {
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Fatura",
+        "xTickLabelRotation": -45
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n)\nSELECT CONCAT(FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)), ' · ', currency) AS Fatura,\n  ROUND(SUM(cost), 2) AS Bruto,\n  ROUND(-SUM(credit_amount), 2) AS Creditos,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing\nWHERE project_id IN ('enterprise-core-prod', 'enterprise-saas-staging', 'enterprise-ai-analytics', 'enterprise-telemetry-prod', 'enterprise-ai-gateway')\nGROUP BY invoice_month, currency ORDER BY invoice_month, currency",
+          "refId": "A"
+        }
+      ],
+      "title": "Custos mensais por fatura · cinco projetos",
+      "type": "barchart"
+    },
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 19,
+      "options": {
+        "content": "**Como interpretar:** Sem dados ≠ zero. Cloud Run pode escalar até zero. IA cobre apenas Vertex AI. Billing é histórico e pode estar atrasado. Abra o projeto para investigar serviços e recursos.",
+        "mode": "markdown"
+      },
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "refresh": "5m",
+  "schemaVersion": 39,
+  "tags": [
+    "ai-ops",
+    "gcp",
+    "human-first",
+    "read-only"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "global",
+          "value": "global"
+        },
+        "hide": 2,
+        "label": "project_id",
+        "name": "project_id",
+        "query": "global",
+        "type": "constant"
+      },
+      {
+        "current": {
+          "text": "mixed",
+          "value": "mixed"
+        },
+        "hide": 2,
+        "label": "environment",
+        "name": "environment",
+        "query": "mixed",
+        "type": "constant"
+      },
+      {
+        "current": {
+          "text": "all",
+          "value": "all"
+        },
+        "hide": 2,
+        "label": "service_scope",
+        "name": "service_scope",
+        "query": "all",
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Visão Geral — AI-Ops Copilot",
+  "uid": "unified-cloudrun-ops",
+  "version": 1,
+  "weekStart": ""
+}

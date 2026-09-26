@@ -1,0 +1,39 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "app",
+  "name": "AI-Ops Copilot",
+  "id": "ai-ops-copilot-chat",
+  "preload": true,
+  "autoEnabled": true,
+  "includes": [
+    {
+      "type": "page",
+      "name": "AI-Ops Copilot",
+      "path": "/a/ai-ops-copilot-chat",
+      "role": "Viewer",
+      "addToNav": true,
+      "defaultNav": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "copilot-api",
+      "url": "http://localhost:8080",
+      "methods": ["GET", "POST"]
+    }
+  ],
+  "info": {
+    "description": "Autonomous SRE AI-Ops Copilot for GCP & Firebase multi-project observability",
+    "author": {
+      "name": "AI-Ops Copilot Contributors",
+      "url": "https://github.com/juanmh10/ai-ops-copilot"
+    },
+    "keywords": ["ai", "sre", "gcp", "chat", "copilot"],
+    "version": "1.1.0",
+    "updated": "2026-09-22"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=10.0.0",
+    "plugins": []
+  }
+}

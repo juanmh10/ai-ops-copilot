@@ -1,0 +1,31 @@
+ARG GRAFANA_VERSION=11.1.0
+FROM grafana/grafana-oss:${GRAFANA_VERSION}
+
+USER root
+
+# BigQuery powers the FinOps panels. Version 2.2.1 is pinned because it is
+# compatible with Grafana 11 and keeps the image reproducible.
+RUN grafana cli plugins install grafana-bigquery-datasource 2.2.1
+
+# Create plugin directory and copy compiled frontend artifacts
+RUN mkdir -p /var/lib/grafana/plugins/ai-ops-copilot-chat
+COPY grafana-plugin/plugin.json /var/lib/grafana/plugins/ai-ops-copilot-chat/
+COPY grafana-plugin/module.js /var/lib/grafana/plugins/ai-ops-copilot-chat/
+RUN chown -R grafana:root /var/lib/grafana/plugins/ai-ops-copilot-chat
+
+# Copy automated datasource (Cloud Monitoring & BigQuery) and dashboard provisioning
+COPY grafana-provisioning/datasources/ /etc/grafana/provisioning/datasources/
+COPY grafana-provisioning/dashboards/ /etc/grafana/provisioning/dashboards/
+RUN chown -R grafana:root /etc/grafana/provisioning
+
+# Separate persistence and plugins directories so data volume mounts
+# do not hide plugins installed reproducibly inside the image.
+RUN mkdir -p /var/lib/grafana-data && chown -R grafana:root /var/lib/grafana-data
+
+USER grafana
+
+# Allow loading unsigned custom plugin
+ENV GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=ai-ops-copilot-chat
+ENV GF_PATHS_DATA=/var/lib/grafana-data
+ENV GF_PATHS_PLUGINS=/var/lib/grafana/plugins
+ENV GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/json/unified-cloudrun-dashboard.json

@@ -1,0 +1,276 @@
+name: CI Quality Gate & Security Audits
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # 1. Gitleaks security audit for hardcoded secrets and credentials
+  gitleaks:
+    name: Security - Gitleaks Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks Audit
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz | tar -xz -C /tmp
+          /tmp/gitleaks detect --source=. --config=.gitleaks.toml -v
+
+  # 2. Terraform format and validation
+  terraform:
+    name: IaC - Terraform Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+
+      - name: Terraform Format Check
+        run: terraform fmt -check terraform/ops-copilot
+
+      - name: Terraform Init
+        run: terraform -chdir=terraform/ops-copilot init -backend=false
+
+      - name: Terraform Validate
+        run: terraform -chdir=terraform/ops-copilot validate
+
+  # 3. Go Backend Linters, Tests and Coverage
+  go-backend:
+    name: Backend - Go Tests & Vet
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'agent-backend/go.mod'
+          cache-dependency-path: agent-backend/go.sum
+
+      - name: Go Vet
+        working-directory: agent-backend
+        run: go vet ./...
+
+      - name: Run Unit Tests with Race and Coverage
+        working-directory: agent-backend
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+  # 4. Grafana Plugin Tests, Typecheck and Build
+  grafana-plugin:
+    name: Frontend - Grafana Plugin Tests & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: grafana-plugin/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: grafana-plugin
+        run: npm ci
+
+      - name: Run Plugin Unit Tests
+        working-directory: grafana-plugin
+        run: npm test
+
+      - name: Build Plugin
+        working-directory: grafana-plugin
+        run: npm run build
+
+  # 5. Docker Container Build Verification
+  docker-build:
+    name: Container - Docker Multi-stage Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Agent Backend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./agent-backend
+          file: ./agent-backend/Dockerfile
+          push: false
+          tags: ai-ops-copilot-backend:ci
+
+  # 6. Quality Gate Consolidation
+  quality-gate:
+    name: Quality Gate Enforcement
+    needs: [gitleaks, terraform, go-backend, grafana-plugin, docker-build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Quality Gate Status
+        run: |
+          echo "===================================================="
+          echo "🎉 All quality gates and security audits passed!"
+          echo " - Gitleaks: No secret leaks detected"
+          echo " - Terraform: Validated and formatted"
+          echo " - Go Backend: Tests and vet passed with race detector"
+          echo " - Grafana Plugin: Typecheck and build passed"
+          echo " - Docker: Multi-stage Distroless image built cleanly"
+          echo "===================================================="
+
+  # Push to main deploys only after all quality checks pass. Activation depends on
+  # WIF bootstrap via Terraform and setting CD_ENABLED to 'true' in GitHub repository variables.
+  deploy:
+    name: CD - Publish images and deploy Cloud Run
+    needs: quality-gate
+    if: >-
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      github.ref == 'refs/heads/main' && vars.CD_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: ai-ops-copilot-production
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ vars.GCP_REGION }}
+      SERVICE_NAME: ${{ vars.SERVICE_NAME }}
+      BILLING_PROJECT_ID: ${{ vars.BILLING_PROJECT_ID }}
+      BILLING_DATASET: ${{ vars.BILLING_DATASET }}
+      REGISTRY: ${{ vars.GCP_REGION }}-docker.pkg.dev
+      IMAGE_PREFIX: ${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/ops-copilot
+    steps:
+      - name: Validate deployment configuration
+        env:
+          WIF_PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          DEPLOYER_SA: ${{ vars.GCP_CD_SERVICE_ACCOUNT }}
+        run: |
+          for name in GCP_PROJECT_ID GCP_REGION SERVICE_NAME BILLING_PROJECT_ID BILLING_DATASET WIF_PROVIDER DEPLOYER_SA; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing GitHub Actions variable: ${name}" >&2
+              exit 1
+            fi
+          done
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: grafana-plugin/package-lock.json
+
+      - name: Build Grafana plugin for the image
+        working-directory: grafana-plugin
+        run: |
+          npm ci
+          npm run build
+
+      - id: auth
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_CD_SERVICE_ACCOUNT }}
+          token_format: access_token
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      - id: backend_image
+        name: Publish backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./agent-backend
+          file: ./agent-backend/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ env.IMAGE_PREFIX }}/agent-backend:${{ github.sha }}
+
+      - id: grafana_image
+        name: Publish Grafana image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile.grafana
+          platforms: linux/amd64
+          push: true
+          tags: ${{ env.IMAGE_PREFIX }}/grafana:${{ github.sha }}
+
+      - uses: google-github-actions/setup-gcloud@v3
+
+      - id: deploy_auth
+        name: Refresh credentials for Cloud Run
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_CD_SERVICE_ACCOUNT }}
+          token_format: access_token
+          create_credentials_file: false
+
+      - name: Deploy both images in one Cloud Run revision
+        env:
+          BACKEND_DIGEST: ${{ steps.backend_image.outputs.digest }}
+          GRAFANA_DIGEST: ${{ steps.grafana_image.outputs.digest }}
+          DEPLOY_ACCESS_TOKEN: ${{ steps.deploy_auth.outputs.access_token }}
+        run: |
+          latest_sha="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [[ "$latest_sha" != "$GITHUB_SHA" ]]; then
+            echo "A newer commit is on main; skipping this revision."
+            exit 0
+          fi
+          token_file="$(mktemp)"
+          trap 'rm -f "$token_file"' EXIT
+          chmod 600 "$token_file"
+          printf '%s' "$DEPLOY_ACCESS_TOKEN" > "$token_file"
+          backend_image="${IMAGE_PREFIX}/agent-backend@${BACKEND_DIGEST}"
+          grafana_image="${IMAGE_PREFIX}/grafana@${GRAFANA_DIGEST}"
+          gcloud run services update "$SERVICE_NAME" \
+            --project="$GCP_PROJECT_ID" --region="$GCP_REGION" \
+            --access-token-file="$token_file" --quiet \
+            --container=agent-backend --image="$backend_image" \
+            --update-env-vars="BILLING_PROJECT_ID=$BILLING_PROJECT_ID,BILLING_DATASET=$BILLING_DATASET" \
+            --container=grafana --image="$grafana_image"
+          gcloud run services describe "$SERVICE_NAME" \
+            --project="$GCP_PROJECT_ID" --region="$GCP_REGION" \
+            --access-token-file="$token_file" --format=json |
+            node -e '
+              let body = "";
+              process.stdin.on("data", chunk => body += chunk);
+              process.stdin.on("end", () => {
+                const service = JSON.parse(body);
+                const images = Object.fromEntries(
+                  (service.spec?.template?.spec?.containers || []).map(container => [container.name, container.image])
+                );
+                if (images["agent-backend"] !== process.argv[1] ||
+                    images.grafana !== process.argv[2] ||
+                    !service.status?.latestReadyRevisionName) {
+                  console.error("Cloud Run did not activate the expected images");
+                  process.exitCode = 1;
+                }
+              });
+            ' "$backend_image" "$grafana_image"

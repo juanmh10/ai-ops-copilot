@@ -1,0 +1,15 @@
+# Gitleaks configuration for AI-Ops Copilot repository
+title = "Gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlists for safe patterns and examples"
+paths = [
+  '''terraform\.tfvars\.example''',
+  '''\.terraform\.lock\.hcl''',
+  '''package-lock\.json''',
+  '''go\.sum''',
+  '''\.gitignore'''
+]

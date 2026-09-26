@@ -1,0 +1,1846 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "description": "Tokens, modelos, chamadas e custos do projeto de cotas Vertex AI.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "keepTime": true,
+      "title": "Visão Geral",
+      "type": "link",
+      "url": "/d/unified-cloudrun-ops"
+    },
+    {
+      "keepTime": true,
+      "title": "Core Platform \u0026 APIs",
+      "type": "link",
+      "url": "/d/aiops-core-prod"
+    },
+    {
+      "keepTime": true,
+      "title": "Enterprise SaaS Staging",
+      "type": "link",
+      "url": "/d/aiops-saas-staging"
+    },
+    {
+      "keepTime": true,
+      "title": "AI Analytics \u0026 FinOps",
+      "type": "link",
+      "url": "/d/aiops-ai-analytics"
+    },
+    {
+      "keepTime": true,
+      "title": "Telemetry Store \u0026 Ingest",
+      "type": "link",
+      "url": "/d/aiops-telemetry-prod"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "content": "## Gateway de IA, em uma leitura\n\nVertex AI · Consumo, modelos e respostas. **Totais seguem o período selecionado; custos seguem a fatura indicada.**",
+        "mode": "markdown"
+      },
+      "title": "",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Soma de todos os tokens (entrada e saída) processados via Vertex AI no período.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 2,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Tokens",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Tokens",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tokens totais",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Tokens de prompt enviados aos modelos Vertex AI no período.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 3
+      },
+      "id": 3,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Entrada",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Entrada",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "input"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tokens de entrada",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Tokens de resposta gerados pelos modelos Vertex AI no período.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "cyan",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 3
+      },
+      "id": 4,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Saída",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Saída",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "output"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tokens de saída",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Total de invocações Vertex AI no período selecionado, incluindo erros.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 5,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Chamadas",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Chamadas",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Chamadas de modelo",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 20,
+      "panels": [],
+      "title": "01  Consumo · quanto e quais modelos?",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Totais de tokens no período. Entrada inclui o prompt/contexto; saída é o conteúdo gerado.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 8
+      },
+      "id": 6,
+      "maxDataPoints": 1500,
+      "options": {
+        "displayMode": "basic",
+        "maxVizHeight": 60,
+        "minVizHeight": 16,
+        "minVizWidth": 0,
+        "namePlacement": "top",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 14
+        },
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "aliasBy": "Entrada",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Entrada",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "input"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        },
+        {
+          "aliasBy": "Saída",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Saída",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "output"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "B"
+        }
+      ],
+      "title": "Tokens · entrada e saída",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "mode": "reduceFields",
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Participação de cada modelo nas invocações no período. A legenda mostra quantidade e percentual.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 8
+      },
+      "id": 7,
+      "maxDataPoints": 1500,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.model_user_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.model_user_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.model_user_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Modelos chamados · participação",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Entrada + saída somadas por modelo no período selecionado.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "id": 8,
+      "maxDataPoints": 1500,
+      "options": {
+        "displayMode": "basic",
+        "maxVizHeight": 60,
+        "minVizHeight": 16,
+        "minVizWidth": 0,
+        "namePlacement": "top",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "sizing": "auto",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 14
+        },
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.model_user_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.model_user_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.model_user_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tokens consumidos por modelo",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "mode": "reduceFields",
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Taxa de consumo de tokens por segundo ao longo do tempo (entrada e saída).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "suffix: tokens/s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Entrada"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Saída"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 9,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "Entrada",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Entrada",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "input"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        },
+        {
+          "aliasBy": "Saída",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Saída",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway",
+              "AND",
+              "metric.label.type",
+              "=",
+              "output"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "B"
+        }
+      ],
+      "title": "Ritmo de consumo de tokens",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Invocações por segundo por modelo Vertex AI ao longo do tempo.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "id": 10,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.model_user_id}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.model_user_id}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "resource.label.model_user_id"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Chamadas por modelo ao longo do tempo",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 21,
+      "panels": [],
+      "title": "02  Respostas · há falhas ou lentidão?",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Taxa de invocações por código de resposta HTTP. Picos de 429 indicam saturação de cota.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 26
+      },
+      "id": 11,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{metric.label.response_code}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{metric.label.response_code}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "metric.label.response_code"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Ritmo de invocações por resposta",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Taxa de erros classificados por categoria oficial da API (ex: RESOURCE_EXHAUSTED, INVALID_ARGUMENT).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
+      "id": 12,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{metric.label.error_category}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{metric.label.error_category}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-ai-gateway"
+            ],
+            "groupBys": [
+              "metric.label.error_category"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-ai-gateway",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Erros por categoria de falha",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 22,
+      "panels": [],
+      "title": "03  Custos · fatura disponível e atualização da fonte",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Custos brutos, créditos aplicados e valor líquido da fatura mais recente para o Gateway de IA.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "width": 72
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Servico"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 210
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bruto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Créditos"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Líquido"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 18,
+        "x": 0,
+        "y": 35
+      },
+      "id": 13,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id,\n    service.description AS service_name, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n  WHERE project.id = 'enterprise-ai-gateway'\n), latest AS (SELECT MAX(invoice_month) AS month FROM billing)\nSELECT FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)) AS Fatura,\n  currency AS Moeda, ROUND(SUM(cost), 2) AS Bruto,\n  ROUND(-SUM(credit_amount), 2) AS Creditos,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing WHERE invoice_month = (SELECT month FROM latest)\nGROUP BY invoice_month, currency",
+          "refId": "A"
+        }
+      ],
+      "title": "Resumo da última fatura disponível",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Dias desde a última atualização do export de custos da conta, medidos por export_time. Acima de 2 dias: atenção; a partir de 7: obsoleto.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "width": 72
+          },
+          "decimals": 0,
+          "displayName": "Defasagem",
+          "noValue": "Sem dados",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "gray",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "red",
+                "value": 7
+              }
+            ]
+          },
+          "unit": "suffix: dias"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 35
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  DATE_DIFF(CURRENT_DATE('America/Sao_Paulo'), DATE(MAX(export_time), 'America/Sao_Paulo'), DAY) AS dias_sem_atualizacao\nFROM `billing_export.gcp_billing_export_v1_*`\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Defasagem do billing",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Detalhamento de custo por serviço na última fatura disponível do projeto.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "width": 72
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Servico"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 210
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bruto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Créditos"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Líquido"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 40
+      },
+      "id": 15,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id,\n    service.description AS service_name, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n  WHERE project.id = 'enterprise-ai-gateway'\n), latest AS (SELECT MAX(invoice_month) AS month FROM billing)\nSELECT FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)) AS Fatura,\n  COALESCE(service_name, 'Outros') AS Servico,\n  currency AS Moeda,\n  ROUND(SUM(cost), 2) AS Bruto,\n  ROUND(-SUM(credit_amount), 2) AS Creditos,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing WHERE invoice_month = (SELECT month FROM latest)\nGROUP BY invoice_month, service_name, currency ORDER BY Liquido DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "Custo por serviço · última fatura",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Até 12 meses de fatura a partir da última fatura disponível. Valores na moeda indicada, sem conversão.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Valor na moeda indicada",
+            "fillOpacity": 85,
+            "lineWidth": 0
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 40
+      },
+      "id": 16,
+      "options": {
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "legend": {
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Fatura",
+        "xTickLabelRotation": -45
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id,\n    service.description AS service_name, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n  WHERE project.id = 'enterprise-ai-gateway'\n), latest AS (SELECT MAX(invoice_month) AS month FROM billing)\nSELECT CONCAT(FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)), ' · ', currency) AS Fatura,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing GROUP BY invoice_month, currency ORDER BY invoice_month, currency",
+          "refId": "A"
+        }
+      ],
+      "title": "Custo líquido por mês de fatura",
+      "type": "barchart"
+    },
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 49
+      },
+      "id": 19,
+      "options": {
+        "content": "**Como interpretar:** Sem dados ≠ zero. O gateway não possui instâncias computacionais contínuas alocadas. Chamadas e tokens cobrem exclusivamente o consumo Vertex AI/Gemini registrado. Custos são históricos do BigQuery export e podem apresentar defasagem de dias.",
+        "mode": "markdown"
+      },
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "refresh": "5m",
+  "schemaVersion": 39,
+  "tags": [
+    "ai-ops",
+    "gcp",
+    "human-first",
+    "read-only"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "enterprise-ai-gateway",
+          "value": "enterprise-ai-gateway"
+        },
+        "hide": 2,
+        "label": "project_id",
+        "name": "project_id",
+        "query": "enterprise-ai-gateway",
+        "type": "constant"
+      },
+      {
+        "current": {
+          "text": "shared",
+          "value": "shared"
+        },
+        "hide": 2,
+        "label": "environment",
+        "name": "environment",
+        "query": "shared",
+        "type": "constant"
+      },
+      {
+        "current": {
+          "text": "vertex-ai",
+          "value": "vertex-ai"
+        },
+        "hide": 2,
+        "label": "service_scope",
+        "name": "service_scope",
+        "query": "vertex-ai",
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Projeto — Gateway de IA",
+  "uid": "aiops-ai-gateway",
+  "version": 1,
+  "weekStart": ""
+}

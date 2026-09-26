@@ -1,0 +1,70 @@
+# Terraform Credentials, States & Caches (STRICT GUARDRAIL)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+.terraform.lock.hcl
+
+# Credentials, Certificates & Secrets
+*.json
+!plugin.json
+!tsconfig.json
+!package.json
+!package-lock.json
+!*dashboard*.json
+!*policy*.json
+!grafana-provisioning/dashboards/json/*.json
+!monitoring/metrics-catalog.json
+*.key
+*.pem
+*.pfx
+*.env
+*.env.*
+!.env.example
+
+# Go & Binaries
+bin/
+dist/
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# Node / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+temp.js
+
+# Playwright & Automation caches
+.playwright-cli/
+output/
+playwright-report/
+test-results/
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.png
+!docs/assets/**/*.png
+
+# Internal agent teamwork artifacts
+.agents/
+inputs/

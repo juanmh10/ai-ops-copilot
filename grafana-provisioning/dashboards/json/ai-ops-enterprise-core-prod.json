@@ -1,0 +1,1913 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "description": "Core production platform and public ingress APIs. Scale down to zero is expected behavior during idle traffic.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "keepTime": true,
+      "title": "Visão Geral",
+      "type": "link",
+      "url": "/d/unified-cloudrun-ops"
+    },
+    {
+      "keepTime": true,
+      "title": "Enterprise SaaS Staging",
+      "type": "link",
+      "url": "/d/aiops-saas-staging"
+    },
+    {
+      "keepTime": true,
+      "title": "AI Analytics \u0026 FinOps",
+      "type": "link",
+      "url": "/d/aiops-ai-analytics"
+    },
+    {
+      "keepTime": true,
+      "title": "Telemetry Store \u0026 Ingest",
+      "type": "link",
+      "url": "/d/aiops-telemetry-prod"
+    },
+    {
+      "keepTime": true,
+      "title": "Gateway de IA",
+      "type": "link",
+      "url": "/d/aiops-ai-gateway"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "content": "## Website \u0026 APIs Core, em uma leitura\n\nProdução · Tráfego, falhas e desempenho das APIs. **Totais seguem o período selecionado; custos seguem a fatura indicada.**",
+        "mode": "markdown"
+      },
+      "title": "",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Soma das requisições Cloud Run recebidas no período para portal-api e auth-gateway-api, incluindo erros.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 2,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Requisições",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Requisições",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Requisições · período",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Quantidade de respostas com erro de servidor (HTTP 5xx). Ausência de série não comprova zero erros.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "orange",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 3
+      },
+      "id": 3,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Respostas 5xx",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Respostas 5xx",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod",
+              "AND",
+              "metric.label.response_code_class",
+              "=",
+              "5xx"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_SUM",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Respostas 5xx",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Maior latência p95 entre os serviços do projeto no intervalo mais recente. Destaca o pior sinal operacional.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "purple",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 3
+      },
+      "id": 4,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Pior p95",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Pior p95",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_MAX",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_latencies",
+            "perSeriesAligner": "ALIGN_PERCENTILE_95",
+            "projectName": "enterprise-core-prod",
+            "valueType": "DISTRIBUTION"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Pior latência p95",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Média de instâncias ativas no intervalo mais recente, somada entre os serviços. Escala até zero é esperada quando não há tráfego.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "cyan",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 5,
+      "maxDataPoints": 1500,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "left",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "aliasBy": "Ativas",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "Ativas",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod",
+              "AND",
+              "metric.label.state",
+              "=",
+              "active"
+            ],
+            "metricKind": "GAUGE",
+            "metricType": "run.googleapis.com/container/instance_count",
+            "perSeriesAligner": "ALIGN_MEAN",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Instâncias ativas",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 20,
+      "panels": [],
+      "title": "01  Operação · onde há tráfego e falhas?",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Requisições por segundo por serviço (portal-api e auth-gateway-api).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "portal-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "auth-gateway-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 6,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.service_name}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.service_name}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod"
+            ],
+            "groupBys": [
+              "resource.label.service_name"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Tráfego por serviço",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Respostas HTTP 5xx por segundo. Compare com o tráfego ao lado; não é uma taxa percentual.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api 5xx"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "portal-api 5xx"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api 5xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api 5xx"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "auth-gateway-api 5xx"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api 5xx"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 7,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.service_name}} 5xx",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.service_name}} 5xx",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod",
+              "AND",
+              "metric.label.response_code_class",
+              "=",
+              "5xx"
+            ],
+            "groupBys": [
+              "resource.label.service_name"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_count",
+            "perSeriesAligner": "ALIGN_RATE",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Erros de servidor por serviço",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Latência p95 em milissegundos por serviço ao longo do tempo.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "portal-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "auth-gateway-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 8,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.service_name}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.service_name}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_MAX",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod"
+            ],
+            "groupBys": [
+              "resource.label.service_name"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/request_latencies",
+            "perSeriesAligner": "ALIGN_PERCENTILE_95",
+            "projectName": "enterprise-core-prod",
+            "valueType": "DISTRIBUTION"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Latência p95 por serviço",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Média de instâncias ativas no intervalo por serviço. Escala até zero é esperada quando o serviço está inativo.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "portal-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "auth-gateway-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 9,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.service_name}}",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.service_name}}",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_SUM",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod",
+              "AND",
+              "metric.label.state",
+              "=",
+              "active"
+            ],
+            "groupBys": [
+              "resource.label.service_name"
+            ],
+            "metricKind": "GAUGE",
+            "metricType": "run.googleapis.com/container/instance_count",
+            "perSeriesAligner": "ALIGN_MEAN",
+            "projectName": "enterprise-core-prod",
+            "valueType": "INT64"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Instâncias ativas por serviço",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 21,
+      "panels": [],
+      "title": "02  Recursos · há pressão de CPU ou memória?",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Percentil 95 de utilização de CPU alocada por serviço (0.0 a 1.0). Valores acima de 0.8 indicam necessidade de ajuste de capacidade.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api CPU"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "portal-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api CPU"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api CPU"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "auth-gateway-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api CPU"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "cyan",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 25
+      },
+      "id": 10,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.service_name}} CPU",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.service_name}} CPU",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_MAX",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod"
+            ],
+            "groupBys": [
+              "resource.label.service_name"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/container/cpu/utilizations",
+            "perSeriesAligner": "ALIGN_PERCENTILE_95",
+            "projectName": "enterprise-core-prod",
+            "valueType": "DISTRIBUTION"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Utilização de CPU p95 por serviço",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "stackdriver",
+        "uid": "gcp-monitoring"
+      },
+      "description": "Percentil 95 de utilização de memória alocada por serviço (0.0 a 1.0). Valores próximos a 1.0 alertam risco de esgotamento de memória (OOM).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 8,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "color": "gray",
+                  "text": "Sem dados"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "min": 0,
+          "noValue": "Sem dados",
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api Memória"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "portal-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "portal-api Memória"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api Memória"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "auth-gateway-api"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "auth-gateway-api Memória"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "id": 11,
+      "maxDataPoints": 1500,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "aliasBy": "{{resource.label.service_name}} Memória",
+          "datasource": {
+            "type": "stackdriver",
+            "uid": "gcp-monitoring"
+          },
+          "metricQuery": {
+            "aliasBy": "{{resource.label.service_name}} Memória",
+            "alignmentPeriod": "stackdriver-auto",
+            "crossSeriesReducer": "REDUCE_MAX",
+            "filters": [
+              "resource.label.project_id",
+              "=",
+              "enterprise-core-prod"
+            ],
+            "groupBys": [
+              "resource.label.service_name"
+            ],
+            "metricKind": "DELTA",
+            "metricType": "run.googleapis.com/container/memory/utilizations",
+            "perSeriesAligner": "ALIGN_PERCENTILE_95",
+            "projectName": "enterprise-core-prod",
+            "valueType": "DISTRIBUTION"
+          },
+          "queryType": "metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "Utilização de memória p95 por serviço",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 22,
+      "panels": [],
+      "title": "03  Custos · fatura disponível e atualização da fonte",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Custos brutos, créditos aplicados e valor líquido da fatura mais recente para o projeto Website \u0026 APIs Core.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "width": 72
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Servico"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 210
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bruto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Créditos"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Líquido"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 18,
+        "x": 0,
+        "y": 34
+      },
+      "id": 12,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id,\n    service.description AS service_name, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n  WHERE project.id = 'enterprise-core-prod'\n), latest AS (SELECT MAX(invoice_month) AS month FROM billing)\nSELECT FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)) AS Fatura,\n  currency AS Moeda, ROUND(SUM(cost), 2) AS Bruto,\n  ROUND(-SUM(credit_amount), 2) AS Creditos,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing WHERE invoice_month = (SELECT month FROM latest)\nGROUP BY invoice_month, currency",
+          "refId": "A"
+        }
+      ],
+      "title": "Resumo da última fatura disponível",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Dias desde a última atualização do export de custos da conta, medidos por export_time. Acima de 2 dias: atenção; a partir de 7: obsoleto.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "width": 72
+          },
+          "decimals": 0,
+          "displayName": "Defasagem",
+          "noValue": "Sem dados",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "gray",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "red",
+                "value": 7
+              }
+            ]
+          },
+          "unit": "suffix: dias"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 34
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  DATE_DIFF(CURRENT_DATE('America/Sao_Paulo'), DATE(MAX(export_time), 'America/Sao_Paulo'), DAY) AS dias_sem_atualizacao\nFROM `billing_export.gcp_billing_export_v1_*`\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Defasagem do billing",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Detalhamento de custo por serviço na última fatura disponível do projeto.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "width": 72
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Servico"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 210
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fatura"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "string"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Moeda"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 50
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Bruto"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Creditos"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Créditos"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 68
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Liquido"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Líquido"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 39
+      },
+      "id": 14,
+      "options": {
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id,\n    service.description AS service_name, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n  WHERE project.id = 'enterprise-core-prod'\n), latest AS (SELECT MAX(invoice_month) AS month FROM billing)\nSELECT FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)) AS Fatura,\n  COALESCE(service_name, 'Outros') AS Servico,\n  currency AS Moeda,\n  ROUND(SUM(cost), 2) AS Bruto,\n  ROUND(-SUM(credit_amount), 2) AS Creditos,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing WHERE invoice_month = (SELECT month FROM latest)\nGROUP BY invoice_month, service_name, currency ORDER BY Liquido DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "Custo por serviço · última fatura",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-bigquery-datasource",
+        "uid": "gcp-billing"
+      },
+      "description": "Até 12 meses de fatura a partir da última fatura disponível. Valores na moeda indicada, sem conversão.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Valor na moeda indicada",
+            "fillOpacity": 85,
+            "lineWidth": 0
+          },
+          "decimals": 2,
+          "noValue": "Sem dados",
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 39
+      },
+      "id": 15,
+      "options": {
+        "barWidth": 0.8,
+        "groupWidth": 0.7,
+        "legend": {
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "never",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xField": "Fatura",
+        "xTickLabelRotation": -45
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-bigquery-datasource",
+            "uid": "gcp-billing"
+          },
+          "editorMode": "code",
+          "format": 1,
+          "location": "US",
+          "rawQuery": true,
+          "rawSql": "WITH billing AS (\n  SELECT invoice.month AS invoice_month, project.id AS project_id,\n    service.description AS service_name, currency, cost,\n    COALESCE((SELECT SUM(c.amount) FROM UNNEST(credits) c), 0) AS credit_amount\n  FROM `billing_export.gcp_billing_export_v1_*`\n  WHERE project.id = 'enterprise-core-prod'\n), latest AS (SELECT MAX(invoice_month) AS month FROM billing)\nSELECT CONCAT(FORMAT_DATE('%m/%Y', PARSE_DATE('%Y%m', invoice_month)), ' · ', currency) AS Fatura,\n  ROUND(SUM(cost + credit_amount), 2) AS Liquido\nFROM billing GROUP BY invoice_month, currency ORDER BY invoice_month, currency",
+          "refId": "A"
+        }
+      ],
+      "title": "Custo líquido por mês de fatura",
+      "type": "barchart"
+    },
+    {
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "id": 19,
+      "options": {
+        "content": "**Como interpretar:** Sem dados ≠ zero. Cloud Run escala até zero quando inativo. Custos são históricos do BigQuery export e podem apresentar defasagem de dias. P95 de CPU/memória indica pressão de pico nas instâncias ativas.",
+        "mode": "markdown"
+      },
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    }
+  ],
+  "refresh": "5m",
+  "schemaVersion": 39,
+  "tags": [
+    "ai-ops",
+    "gcp",
+    "human-first",
+    "read-only"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "enterprise-core-prod",
+          "value": "enterprise-core-prod"
+        },
+        "hide": 2,
+        "label": "project_id",
+        "name": "project_id",
+        "query": "enterprise-core-prod",
+        "type": "constant"
+      },
+      {
+        "current": {
+          "text": "production",
+          "value": "production"
+        },
+        "hide": 2,
+        "label": "environment",
+        "name": "environment",
+        "query": "production",
+        "type": "constant"
+      },
+      {
+        "current": {
+          "text": "portal-api, auth-gateway-api",
+          "value": "portal-api, auth-gateway-api"
+        },
+        "hide": 2,
+        "label": "service_scope",
+        "name": "service_scope",
+        "query": "portal-api, auth-gateway-api",
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Projeto — Core Platform \u0026 APIs",
+  "uid": "aiops-core-prod",
+  "version": 1,
+  "weekStart": ""
+}

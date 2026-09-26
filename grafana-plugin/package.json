@@ -1,0 +1,22 @@
+{
+  "name": "ai-ops-copilot-chat",
+  "version": "1.1.0",
+  "description": "Grafana App Plugin for Autonomous SRE AI-Ops Copilot",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && esbuild src/module.ts --bundle --outfile=temp.js --format=esm --jsx=automatic --target=es2020 && rollup temp.js --format system --file module.js && esbuild module.js --minify --allow-overwrite --outfile=module.js && rm -f temp.js",
+    "lint": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test src/context/DashboardContext.test.ts"
+  },
+  "author": "AI-Ops Copilot Contributors",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "esbuild": "^0.28.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^4.63.4",
+    "typescript": "^5.4.0"
+  }
+}

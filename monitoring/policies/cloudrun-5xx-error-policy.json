@@ -1,0 +1,51 @@
+{
+  "displayName": "[P2] Cloud Run - High HTTP 5xx Error Rate",
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "Cloud Run HTTP 5xx Error Rate > 1%",
+      "conditionThreshold": {
+        "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\" metric.label.response_code_class=\"5xx\"",
+        "denominatorFilter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 0.01,
+        "duration": "180s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_RATE",
+            "crossSeriesReducer": "REDUCE_NONE",
+            "groupByFields": [
+              "resource.label.service_name",
+              "resource.label.project_id"
+            ]
+          }
+        ],
+        "denominatorAggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_RATE",
+            "crossSeriesReducer": "REDUCE_NONE",
+            "groupByFields": [
+              "resource.label.service_name",
+              "resource.label.project_id"
+            ]
+          }
+        ],
+        "trigger": {
+          "count": 1
+        }
+      }
+    }
+  ],
+  "notificationChannels": [],
+  "documentation": {
+    "content": "### High HTTP 5xx Error Rate on Cloud Run (> 1%)\n\nA Cloud Run microservice exhibited an HTTP 5xx server crash ratio higher than 1% of total request traffic for more than 3 consecutive minutes.\n\n**Immediate Actions:**\n1. Inspect service error logs and traces in Cloud Logging / Cloud Trace.\n2. Verify upstream connectivity with Firestore, databases, and external APIs.\n3. Check if new revisions were recently deployed and perform a rollback if necessary.",
+    "mimeType": "text/markdown"
+  },
+  "userLabels": {
+    "severity": "high",
+    "managed_by": "ai-ops-copilot"
+  },
+  "enabled": true
+}

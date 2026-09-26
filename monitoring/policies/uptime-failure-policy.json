@@ -1,0 +1,39 @@
+{
+  "displayName": "[P1] Uptime Check Failure - Service Unavailable",
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "Uptime Check Health - Outage Detected",
+      "conditionThreshold": {
+        "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\"",
+        "comparison": "COMPARISON_LT",
+        "thresholdValue": 1.0,
+        "duration": "300s",
+        "aggregations": [
+          {
+            "alignmentPeriod": "300s",
+            "perSeriesAligner": "ALIGN_FRACTION_TRUE",
+            "crossSeriesReducer": "REDUCE_NONE",
+            "groupByFields": [
+              "resource.label.host",
+              "metric.label.check_id"
+            ]
+          }
+        ],
+        "trigger": {
+          "count": 1
+        }
+      }
+    }
+  ],
+  "notificationChannels": [],
+  "documentation": {
+    "content": "### Service Outage Detected (Synthetic Uptime Check)\n\nA synthetic availability check monitored by Cloud Monitoring failed continuously for more than 5 minutes.\n\n**Immediate Actions:**\n1. Verify domain DNS records and SSL/TLS certificate validity.\n2. Inspect Cloud Run or Firebase Hosting ingress logs in the Google Cloud Console.\n3. Test the target endpoint manually using curl or HTTP diagnostic tools.",
+    "mimeType": "text/markdown"
+  },
+  "userLabels": {
+    "severity": "critical",
+    "managed_by": "ai-ops-copilot"
+  },
+  "enabled": true
+}

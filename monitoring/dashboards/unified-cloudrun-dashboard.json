@@ -1,0 +1,339 @@
+{
+  "displayName": "Visão Geral Operacional - Serverless & Cloud Run [enterprise-core-prod]",
+  "gridLayout": {
+    "columns": "2",
+    "widgets": [
+      {
+        "title": "Disponibilidade dos Uptime Checks Sintéticos (Taxa de Sucesso)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\"",
+                  "aggregation": {
+                    "alignmentPeriod": "300s",
+                    "perSeriesAligner": "ALIGN_FRACTION_TRUE",
+                    "crossSeriesReducer": "REDUCE_NONE",
+                    "groupByFields": [
+                      "metric.label.check_id",
+                      "resource.label.host"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.host}"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Disponibilidade (1.0 = 100%)",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Run - Taxa de Requisições por Serviço (RPS)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id} / ${resource.labels.service_name}"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Requisições / segundo",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Run - Latência Percentilada p50, p95 e p99 (ms)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_PERCENTILE_99",
+                    "crossSeriesReducer": "REDUCE_NONE",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id}/${resource.labels.service_name} (p99)"
+            },
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_PERCENTILE_95",
+                    "crossSeriesReducer": "REDUCE_NONE",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id}/${resource.labels.service_name} (p95)"
+            },
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_PERCENTILE_50",
+                    "crossSeriesReducer": "REDUCE_NONE",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id}/${resource.labels.service_name} (p50)"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Latência (ms)",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Run - Erros HTTP 5xx (Erros de Servidor / Crash)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\" metric.label.response_code_class=\"5xx\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id} / ${resource.labels.service_name}"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Erros 5xx / segundo",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Run - Erros HTTP 4xx (Erros de Cliente / Not Found)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\" metric.label.response_code_class=\"4xx\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id} / ${resource.labels.service_name}"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Erros 4xx / segundo",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Run - Contagem de Instâncias de Container (Autoscaling)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/container/instance_count\" resource.type=\"cloud_run_revision\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_MEAN",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id",
+                      "metric.label.state"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id} / ${resource.labels.service_name} (${metric.labels.state})"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Instâncias Ativas / Idle",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Run - Utilização de CPU (p99)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/container/cpu/utilizations\" resource.type=\"cloud_run_revision\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_PERCENTILE_99",
+                    "crossSeriesReducer": "REDUCE_NONE",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id} / ${resource.labels.service_name}"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Fração CPU (0.0 - 1.0)",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Run - Utilização de Memória RAM (p99)",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"run.googleapis.com/container/memory/utilizations\" resource.type=\"cloud_run_revision\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_PERCENTILE_99",
+                    "crossSeriesReducer": "REDUCE_NONE",
+                    "groupByFields": [
+                      "resource.label.service_name",
+                      "resource.label.project_id"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.project_id} / ${resource.labels.service_name}"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Fração Memória (0.0 - 1.0)",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Tasks - Profundidade de Fila e Execução de Tarefas",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type=\"cloudtasks.googleapis.com/queue/task_attempt_count\" resource.type=\"cloud_tasks_queue\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_RATE",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "resource.label.queue_id",
+                      "metric.label.response_code"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "legendTemplate": "${resource.labels.queue_id} (HTTP ${metric.labels.response_code})"
+            }
+          ],
+          "timeshiftDuration": "0s",
+          "yAxis": {
+            "label": "Tentativas / seg",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Cloud Scheduler & Batch - Logs de Falha de Execução",
+        "logsPanel": {
+          "filter": "resource.type=\"cloud_scheduler_job\" AND severity>=ERROR",
+          "resourceNames": [
+            "projects/enterprise-core-prod",
+            "projects/enterprise-saas-staging",
+            "projects/enterprise-ai-analytics",
+            "projects/enterprise-telemetry-prod",
+            "projects/enterprise-ai-gateway"
+          ]
+        }
+      }
+    ]
+  }
+}

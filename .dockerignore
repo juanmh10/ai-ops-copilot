@@ -1,0 +1,13 @@
+.git/
+.github/
+gha-creds-*.json
+.playwright-cli/
+agent-backend/
+terraform/
+inputs/
+output/
+grafana-plugin/node_modules/
+grafana-plugin/dist/
+grafana-plugin/temp.js
+*.tfstate*
+*.tfvars

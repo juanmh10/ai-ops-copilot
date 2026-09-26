@@ -1,0 +1,15 @@
+apiVersion: 1
+
+datasources:
+  - name: Google Cloud Billing
+    uid: gcp-billing
+    type: grafana-bigquery-datasource
+    access: proxy
+    editable: false
+    jsonData:
+      authenticationType: gce
+      defaultProject: $BILLING_PROJECT_ID
+      processingLocation: US
+      MaxBytesBilled: 52428800
+      restrictToAccessibleDatasets: true
+      additionalAllowedDatasets: $BILLING_DATASET

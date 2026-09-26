@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "scoping_project": "enterprise-core-prod",
+  "principles": {
+    "human_dashboards": "Display health, impact, cost, and trends with low cardinality.",
+    "agent_queries": "Can detail project, service, revision, response code, method, model, modality, and token type on demand.",
+    "scale_to_zero": "Absence of traffic or zero instances does not imply downtime; availability is evaluated via uptime checks and error rates.",
+    "billing_freshness": "Costs are considered fresh when days_without_update <= 2; above 7 days data must be flagged as stale."
+  },
+  "projects": [
+    {
+      "project_id": "enterprise-core-prod",
+      "display_name": "Website & APIs Core",
+      "environment": "production",
+      "services": ["portal-api", "auth-gateway-api"],
+      "focus": ["availability", "request_rate", "error_rate", "latency_p95", "cpu", "memory", "cost"]
+    },
+    {
+      "project_id": "enterprise-saas-staging",
+      "display_name": "Enterprise SaaS Staging",
+      "environment": "staging",
+      "services": ["stg-saas-api", "stg-task-worker"],
+      "focus": ["request_rate", "error_rate", "latency_p95", "queue_depth", "task_delay", "firestore_latency", "cost"]
+    },
+    {
+      "project_id": "enterprise-ai-analytics",
+      "display_name": "AI Analytics & FinOps",
+      "environment": "production",
+      "services": ["ai-service-api", "ai-portal-frontend"],
+      "focus": ["availability", "request_rate", "error_rate", "latency_p95", "bigquery_scanned_bytes", "billing_freshness", "cost"]
+    },
+    {
+      "project_id": "enterprise-telemetry-prod",
+      "display_name": "Telemetry Store & Ingest",
+      "environment": "production-staging",
+      "services": ["telemetry-ingest-prod", "telemetry-ingest-staging"],
+      "focus": ["availability", "request_rate", "error_rate", "latency_p95", "scheduler_errors", "firestore_operations", "cost"]
+    },
+    {
+      "project_id": "enterprise-ai-gateway",
+      "display_name": "AI Model Gateway",
+      "environment": "shared",
+      "services": ["vertex-ai"],
+      "focus": ["tokens", "model_invocations", "model_errors", "ai_cost", "billing_freshness"]
+    }
+  ],
+  "metrics": [
+    {
+      "key": "availability",
+      "source": "cloud_monitoring",
+      "metric_type": "monitoring.googleapis.com/uptime_check/check_passed",
+      "human_aggregation": "fraction_true by check_id",
+      "agent_dimensions": ["metric.label.check_id", "resource.label.host"]
+    },
+    {
+      "key": "request_rate",
+      "source": "cloud_monitoring",
+      "metric_type": "run.googleapis.com/request_count",
+      "human_aggregation": "rate sum by project or service",
+      "agent_dimensions": ["resource.label.project_id", "resource.label.service_name", "resource.label.revision_name", "metric.label.response_code", "metric.label.response_code_class"]
+    },
+    {
+      "key": "request_latency",
+      "source": "cloud_monitoring",
+      "metric_type": "run.googleapis.com/request_latencies",
+      "human_aggregation": "p95 by project or service",
+      "agent_dimensions": ["resource.label.service_name", "resource.label.revision_name", "p50", "p95", "p99"]
+    },
+    {
+      "key": "instance_count",
+      "source": "cloud_monitoring",
+      "metric_type": "run.googleapis.com/container/instance_count",
+      "human_aggregation": "sum by project and state",
+      "agent_dimensions": ["resource.label.service_name", "resource.label.revision_name", "metric.label.state"]
+    },
+    {
+      "key": "cpu_utilization",
+      "source": "cloud_monitoring",
+      "metric_type": "run.googleapis.com/container/cpu/utilizations",
+      "human_aggregation": "p95 by service",
+      "agent_dimensions": ["resource.label.service_name", "resource.label.revision_name", "p50", "p95", "p99"]
+    },
+    {
+      "key": "memory_utilization",
+      "source": "cloud_monitoring",
+      "metric_type": "run.googleapis.com/container/memory/utilizations",
+      "human_aggregation": "p95 by service",
+      "agent_dimensions": ["resource.label.service_name", "resource.label.revision_name", "p50", "p95", "p99"]
+    },
+    {
+      "key": "cloud_tasks_depth",
+      "source": "cloud_monitoring",
+      "metric_type": "cloudtasks.googleapis.com/queue/depth",
+      "human_aggregation": "max by queue",
+      "agent_dimensions": ["resource.label.queue_id", "resource.label.location"]
+    },
+    {
+      "key": "cloud_tasks_attempts",
+      "source": "cloud_monitoring",
+      "metric_type": "cloudtasks.googleapis.com/queue/task_attempt_count",
+      "human_aggregation": "rate by response_code",
+      "agent_dimensions": ["resource.label.queue_id", "metric.label.response_code"]
+    },
+    {
+      "key": "firestore_requests",
+      "source": "cloud_monitoring",
+      "metric_type": "firestore.googleapis.com/api/request_count",
+      "human_aggregation": "rate by response_code",
+      "agent_dimensions": ["resource.label.database_id", "metric.label.api_method", "metric.label.response_code"]
+    },
+    {
+      "key": "firestore_latency",
+      "source": "cloud_monitoring",
+      "metric_type": "firestore.googleapis.com/api/request_latencies",
+      "human_aggregation": "p95 by method",
+      "agent_dimensions": ["resource.label.database_id", "metric.label.api_method", "metric.label.response_code", "p50", "p95", "p99"]
+    },
+    {
+      "key": "bigquery_scanned_bytes",
+      "source": "cloud_monitoring",
+      "metric_type": "bigquery.googleapis.com/query/scanned_bytes_billed",
+      "human_aggregation": "sum by priority",
+      "agent_dimensions": ["metric.label.priority"]
+    },
+    {
+      "key": "ai_tokens",
+      "source": "cloud_monitoring",
+      "metric_type": "aiplatform.googleapis.com/publisher/online_serving/token_count",
+      "human_aggregation": "sum by input/output",
+      "agent_dimensions": ["metric.label.type", "metric.label.modality", "metric.label.source", "metric.label.request_type"]
+    },
+    {
+      "key": "ai_invocations",
+      "source": "cloud_monitoring",
+      "metric_type": "aiplatform.googleapis.com/publisher/online_serving/model_invocation_count",
+      "human_aggregation": "sum and rate by response_code",
+      "agent_dimensions": ["metric.label.response_code", "metric.label.error_category", "metric.label.method", "metric.label.request_type"]
+    },
+    {
+      "key": "billing",
+      "source": "bigquery",
+      "table_pattern": "billing_export.gcp_billing_export_v1_*",
+      "human_aggregation": "gross cost, applied credits and net cost by latest invoice month",
+      "agent_dimensions": ["project.id", "service.description", "sku.description", "invoice.month", "currency"],
+      "query_guardrail_bytes": 52428800
+    }
+  ]
+}

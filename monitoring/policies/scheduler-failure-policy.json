@@ -1,0 +1,28 @@
+{
+  "displayName": "[P3] Cloud Scheduler - Scheduled Job Execution Failure",
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "Cloud Scheduler Log Error",
+      "conditionMatchedLog": {
+        "filter": "resource.type=\"cloud_scheduler_job\" AND severity>=ERROR"
+      }
+    }
+  ],
+  "notificationChannels": [],
+  "alertStrategy": {
+    "notificationRateLimit": {
+      "period": "300s"
+    },
+    "autoClose": "604800s"
+  },
+  "documentation": {
+    "content": "### Cloud Scheduler Job Execution Failure\n\nA scheduled routine in Google Cloud Scheduler logged an execution event with severity ERROR.\n\n**Immediate Actions:**\n1. Inspect Cloud Scheduler job execution history in the target project.\n2. Review target endpoint HTTP status codes and response bodies in Cloud Logging.\n3. Verify worker authentication and service identity permissions.",
+    "mimeType": "text/markdown"
+  },
+  "userLabels": {
+    "severity": "warning",
+    "managed_by": "ai-ops-copilot"
+  },
+  "enabled": true
+}

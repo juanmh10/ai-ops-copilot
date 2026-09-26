@@ -1,0 +1,32 @@
+# Example variable configuration for Terraform
+# Copy this file to terraform.tfvars before running terraform plan
+
+project_id            = "enterprise-ops-platform"
+region                = "us-central1"
+service_name          = "ai-ops-copilot"
+authorized_user_email = "ops-lead@example.com"
+
+grafana_image       = "INJECTED_VIA_CI"
+agent_backend_image = "INJECTED_VIA_CI"
+
+grafana_admin_user     = "admin"
+grafana_admin_password = "INJECTED_VIA_TF_VAR"
+
+monitored_projects = [
+  "enterprise-core-prod",
+  "enterprise-saas-staging",
+  "enterprise-ai-analytics",
+  "enterprise-telemetry-prod",
+  "enterprise-ai-gateway"
+]
+
+github_repository_id       = "0000000000" # Numeric GitHub repository ID (e.g. from https://api.github.com/repos/owner/repo)
+github_repository_owner_id = "000000000"  # Numeric GitHub account/org ID (e.g. from https://api.github.com/users/owner)
+
+grafana_root_url             = "https://ai-ops-copilot.example.com"
+grafana_csrf_trusted_origins = "ai-ops-copilot.example.com"
+
+vertex_project_id  = "enterprise-ai-gateway"
+billing_project_id = "enterprise-ai-analytics"
+billing_dataset    = "enterprise-ai-analytics.billing_export"
+gemini_api_key     = "" # Optional: specify if using Gemini Developer API via API Key
